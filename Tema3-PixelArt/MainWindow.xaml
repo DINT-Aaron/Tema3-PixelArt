@@ -1,0 +1,68 @@
+﻿<Window x:Class="Tema3_PixelArt.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tema3_PixelArt"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type GroupBox}">
+            <Setter Property="Padding" Value="5 10"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="Padding" Value="5 1"></Setter>
+            <Setter Property="Margin" Value="10"></Setter>
+            <Setter Property="Width" Value="80"></Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type RadioButton}">
+            <Setter Property="Padding" Value="5 1"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Border}" x:Key="cuadricula">
+            <Setter Property="BorderBrush" Value="Gray"></Setter>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Button}" x:Key="tamañoBoton" BasedOn="{StaticResource{x:Type Button}}">
+            <EventSetter Event="Click" Handler="Button_Click"></EventSetter>
+        </Style>
+    </Window.Resources>
+
+    <DockPanel>
+        <GroupBox DockPanel.Dock="Left" Header="Nuevo" Height="160" VerticalAlignment="Top">
+            <StackPanel>
+                <Button Tag="8">Pequeño</Button>
+                <Button Tag="16">Mediano</Button>
+                <Button Tag="32">Grande</Button>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel DockPanel.Dock="Right">
+            <GroupBox Header="Colores">
+                <StackPanel>
+                    <RadioButton IsChecked="True">Negro</RadioButton>
+                    <RadioButton>Blanco</RadioButton>
+                    <RadioButton>Rojo</RadioButton>
+                    <RadioButton>Verde</RadioButton>
+                    <RadioButton>Azul</RadioButton>
+                    <RadioButton>Amarillo</RadioButton>
+                    <RadioButton>Naranja</RadioButton>
+                    <RadioButton>Rosa</RadioButton>
+                    <RadioButton>Personalizado</RadioButton>
+                    <TextBox IsEnabled="False"></TextBox>
+                </StackPanel>
+            </GroupBox>
+            <Button>Rellenar</Button>
+        </StackPanel>
+        <UniformGrid x:Name="zonaDibujoGrid" Margin="10">
+          
+        </UniformGrid>
+    </DockPanel>
+</Window>
