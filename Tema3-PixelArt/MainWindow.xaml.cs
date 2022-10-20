@@ -20,10 +20,12 @@ namespace Tema3_PixelArt
     /// </summary>
     public partial class MainWindow : Window
     {
+        SolidColorBrush color;
         public MainWindow()
         {
             InitializeComponent();
             crearGrid(8);
+            color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Black"));
         }
 
         private void crearGrid(int n)
@@ -42,9 +44,53 @@ namespace Tema3_PixelArt
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void CambiarTamaño_Click(object sender, RoutedEventArgs e)
         {
+            zonaDibujoGrid.Children.Clear();
             crearGrid(int.Parse((sender as Button).Tag.ToString()));
+        }
+
+        private void Border_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                (sender as Border).Background = color;
+            }
+        }
+
+        private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            (sender as Border).Background = color;
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if ((sender as RadioButton).Tag.ToString().Equals("Personalizado"))
+            {
+                colorPersonalizadoTextBox.IsEnabled = true;
+                colorPersonalizadoTextBox_TextChanged(sender, e);
+            }
+            else
+            {
+                colorPersonalizadoTextBox.IsEnabled = false;
+                color = new SolidColorBrush((Color)ColorConverter.ConvertFromString((sender as RadioButton).Tag.ToString()));
+            }
+        }
+
+        private void colorPersonalizadoTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (colorPersonalizadoTextBox.Text.Length == 6 || colorPersonalizadoTextBox.Text.Length == 7)
+            {
+                if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1) == "#")
+                {
+                    color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorPersonalizadoTextBox.Text.ToString()));
+                }
+                else
+                {
+                    color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#" + colorPersonalizadoTextBox.Text.ToString()));
+                }
+            }
         }
     }
 }

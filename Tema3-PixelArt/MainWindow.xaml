@@ -26,37 +26,41 @@
         <Style TargetType="{x:Type RadioButton}">
             <Setter Property="Padding" Value="5 1"></Setter>
             <Setter Property="Margin" Value="5"></Setter>
+            <EventSetter Event="Checked" Handler="RadioButton_Checked"></EventSetter>
         </Style>
         <Style TargetType="{x:Type Border}" x:Key="cuadricula">
             <Setter Property="BorderBrush" Value="Gray"></Setter>
             <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="Background" Value="White"></Setter>
+            <EventSetter Event="MouseEnter" Handler="Border_MouseEnter"></EventSetter>
+            <EventSetter Event="MouseLeftButtonDown" Handler="Border_MouseLeftButtonDown"></EventSetter>
         </Style>
-        <Style TargetType="{x:Type Button}" x:Key="tamañoBoton" BasedOn="{StaticResource{x:Type Button}}">
-            <EventSetter Event="Click" Handler="Button_Click"></EventSetter>
+        <Style TargetType="{x:Type Button}" x:Key="tamañoBoton" BasedOn="{StaticResource {x:Type Button}}">
+            <EventSetter Event="Click" Handler="CambiarTamaño_Click"></EventSetter>
         </Style>
     </Window.Resources>
 
     <DockPanel>
         <GroupBox DockPanel.Dock="Left" Header="Nuevo" Height="160" VerticalAlignment="Top">
             <StackPanel>
-                <Button Tag="8">Pequeño</Button>
-                <Button Tag="16">Mediano</Button>
-                <Button Tag="32">Grande</Button>
+                <Button Style="{StaticResource tamañoBoton}" Tag="8">Pequeño</Button>
+                <Button Style="{StaticResource tamañoBoton}" Tag="16">Mediano</Button>
+                <Button Style="{StaticResource tamañoBoton}" Tag="32">Grande</Button>
             </StackPanel>
         </GroupBox>
         <StackPanel DockPanel.Dock="Right">
             <GroupBox Header="Colores">
                 <StackPanel>
-                    <RadioButton IsChecked="True">Negro</RadioButton>
-                    <RadioButton>Blanco</RadioButton>
-                    <RadioButton>Rojo</RadioButton>
-                    <RadioButton>Verde</RadioButton>
-                    <RadioButton>Azul</RadioButton>
-                    <RadioButton>Amarillo</RadioButton>
-                    <RadioButton>Naranja</RadioButton>
-                    <RadioButton>Rosa</RadioButton>
-                    <RadioButton>Personalizado</RadioButton>
-                    <TextBox IsEnabled="False"></TextBox>
+                    <RadioButton IsChecked="True" Tag="Black">Negro</RadioButton>
+                    <RadioButton Tag="White">Blanco</RadioButton>
+                    <RadioButton Tag="Red">Rojo</RadioButton>
+                    <RadioButton Tag="Green">Verde</RadioButton>
+                    <RadioButton Tag="Blue">Azul</RadioButton>
+                    <RadioButton Tag="Yellow">Amarillo</RadioButton>
+                    <RadioButton Tag="Orange">Naranja</RadioButton>
+                    <RadioButton Tag="Pink">Rosa</RadioButton>
+                    <RadioButton Tag="Personalizado">Personalizado</RadioButton>
+                    <TextBox x:Name="colorPersonalizadoTextBox" IsEnabled="False" TextChanged="colorPersonalizadoTextBox_TextChanged"></TextBox>
                 </StackPanel>
             </GroupBox>
             <Button>Rellenar</Button>
