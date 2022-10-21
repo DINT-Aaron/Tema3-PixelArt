@@ -21,15 +21,18 @@ namespace Tema3_PixelArt
     public partial class MainWindow : Window
     {
         SolidColorBrush color;
+        bool dibujoEmpezado = false;
         public MainWindow()
         {
             InitializeComponent();
-            crearGrid(8);
+            CrearGrid(8);
             color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("Black"));
         }
 
-        private void crearGrid(int n)
+        private void CrearGrid(int n)
         {
+            zonaDibujoGrid.Children.Clear();
+            dibujoEmpezado = false;
             zonaDibujoGrid.Rows = n;
             zonaDibujoGrid.Columns = n;
 
@@ -46,8 +49,20 @@ namespace Tema3_PixelArt
 
         private void CambiarTamaño_Click(object sender, RoutedEventArgs e)
         {
-            zonaDibujoGrid.Children.Clear();
-            crearGrid(int.Parse((sender as Button).Tag.ToString()));
+            if (dibujoEmpezado)
+            {
+                if (MessageBox.Show("¿Desea borrar el dibujo y crear uno nuevo?",
+                    "Crear nuevo",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    CrearGrid(int.Parse((sender as Button).Tag.ToString()));
+                }
+            }
+            else
+            {
+                CrearGrid(int.Parse((sender as Button).Tag.ToString()));
+            }
         }
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)
@@ -56,12 +71,14 @@ namespace Tema3_PixelArt
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 (sender as Border).Background = color;
+                dibujoEmpezado = true;
             }
         }
 
         private void Border_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             (sender as Border).Background = color;
+            dibujoEmpezado = true;
         }
 
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
@@ -69,27 +86,68 @@ namespace Tema3_PixelArt
             if ((sender as RadioButton).Tag.ToString().Equals("Personalizado"))
             {
                 colorPersonalizadoTextBox.IsEnabled = true;
-                colorPersonalizadoTextBox_TextChanged(sender, e);
+                if (colorPersonalizadoTextBox.Text.Length == 6)
+                {
+                    CambiarColor("#" + colorPersonalizadoTextBox.Text.ToString());
+                }
+                else if (colorPersonalizadoTextBox.Text.Length == 7)
+                {
+                    CambiarColor(colorPersonalizadoTextBox.Text.ToString());
+                }
+
             }
             else
             {
                 colorPersonalizadoTextBox.IsEnabled = false;
-                color = new SolidColorBrush((Color)ColorConverter.ConvertFromString((sender as RadioButton).Tag.ToString()));
+                CambiarColor((sender as RadioButton).Tag.ToString());
             }
         }
 
-        private void colorPersonalizadoTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void ColorPersonalizadoTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (colorPersonalizadoTextBox.Text.Length == 6 || colorPersonalizadoTextBox.Text.Length == 7)
+            /*if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1) == "#" && colorPersonalizadoTextBox.Text.Length == 7)
             {
-                if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1) == "#")
+                CambiarColor(colorPersonalizadoTextBox.Text.ToString());
+            }
+            else if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1) != "#" && colorPersonalizadoTextBox.Text.Length == 6)
+            {
+                CambiarColor("#" + colorPersonalizadoTextBox.Text.ToString());
+            }*/
+
+            if (colorPersonalizadoTextBox.Text.Length == 6)
+            {
+                if (colorPersonalizadoTextBox.Text.StartsWith("#"))
                 {
-                    color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorPersonalizadoTextBox.Text.ToString()));
+                    if (colorPersonalizadoTextBox.Text.Length == 7)
+                    {
+                        CambiarColor(colorPersonalizadoTextBox.Text.ToString());
+                    }
                 }
                 else
                 {
-                    color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#" + colorPersonalizadoTextBox.Text.ToString()));
+                    CambiarColor("#"+colorPersonalizadoTextBox.Text.ToString());
                 }
+            }
+        }
+        private void CambiarColor(string colorString)
+        {
+            try
+            {
+                color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorString));
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("El color introducido no es válido.\nDebe ser un valor hexadecimal de 6 cifras.\n[RRGGBB] o [#RRGGBB]", "Color no válido", MessageBoxButton.OK, MessageBoxImage.Error);
+                colorPersonalizadoTextBox.Text = "";
+            }
+        }
+
+        private void RellenarButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (Border borde in zonaDibujoGrid.Children)
+            {
+                borde.Background = color;
+                dibujoEmpezado = true;
             }
         }
     }

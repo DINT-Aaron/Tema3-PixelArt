@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tema3_PixelArt"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="PixelArt" Icon="assets/pixelado.ico" Height="450" Width="800" MinHeight="450" MinWidth="800">
 
     <Window.Resources>
         <Style TargetType="{x:Type GroupBox}">
@@ -60,10 +60,10 @@
                     <RadioButton Tag="Orange">Naranja</RadioButton>
                     <RadioButton Tag="Pink">Rosa</RadioButton>
                     <RadioButton Tag="Personalizado">Personalizado</RadioButton>
-                    <TextBox x:Name="colorPersonalizadoTextBox" IsEnabled="False" TextChanged="colorPersonalizadoTextBox_TextChanged"></TextBox>
+                    <TextBox x:Name="colorPersonalizadoTextBox" IsEnabled="False" TextChanged="ColorPersonalizadoTextBox_TextChanged" MaxLength="7"></TextBox>
                 </StackPanel>
             </GroupBox>
-            <Button>Rellenar</Button>
+            <Button Click="RellenarButton_Click">Rellenar</Button>
         </StackPanel>
         <UniformGrid x:Name="zonaDibujoGrid" Margin="10">
           
