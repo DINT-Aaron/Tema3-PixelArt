@@ -105,28 +105,25 @@ namespace Tema3_PixelArt
 
         private void ColorPersonalizadoTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            /*if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1) == "#" && colorPersonalizadoTextBox.Text.Length == 7)
+            switch (colorPersonalizadoTextBox.Text.Length)
             {
-                CambiarColor(colorPersonalizadoTextBox.Text.ToString());
-            }
-            else if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1) != "#" && colorPersonalizadoTextBox.Text.Length == 6)
-            {
-                CambiarColor("#" + colorPersonalizadoTextBox.Text.ToString());
-            }*/
-
-            if (colorPersonalizadoTextBox.Text.Length == 6)
-            {
-                if (colorPersonalizadoTextBox.Text.StartsWith("#"))
-                {
-                    if (colorPersonalizadoTextBox.Text.Length == 7)
+                case 6:
+                    if(!colorPersonalizadoTextBox.Text.ToString().Substring(0, 1).Equals("#"))
+                    {
+                        CambiarColor("#" + colorPersonalizadoTextBox.Text.ToString());
+                    }
+                    break;
+                case 7:
+                    if (colorPersonalizadoTextBox.Text.ToString().Substring(0, 1).Equals("#"))
                     {
                         CambiarColor(colorPersonalizadoTextBox.Text.ToString());
                     }
-                }
-                else
-                {
-                    CambiarColor("#"+colorPersonalizadoTextBox.Text.ToString());
-                }
+                    else
+                    {
+                        MessageBox.Show("El color introducido no es válido.\nDebe ser un valor hexadecimal de 6 cifras.\n[RRGGBB] o [#RRGGBB]", "Color no válido", MessageBoxButton.OK, MessageBoxImage.Error);
+                        colorPersonalizadoTextBox.Text = "";
+                    }
+                    break;
             }
         }
         private void CambiarColor(string colorString)
